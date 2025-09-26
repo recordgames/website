@@ -11,19 +11,24 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const heroSection = document.querySelector('#hero');
   const stage = document.querySelector('#hero .parallax-stage');
-  if (!stage) return;
+  if (!heroSection || !stage) return;
 
   const layers = Array.from(stage.querySelectorAll('.parallax-layer'));
   if (!layers.length) return;
 
   const anchorLayer = stage.querySelector('#hero_7') || layers[layers.length - 1];
-  const movingLayers = layers.filter((layer) => layer !== anchorLayer).reverse();
+  const movingLayers = layers.filter((layer) => layer !== anchorLayer);
 
   if (!movingLayers.length) return;
 
   const baseOffset = 120;
   const offsetStep = 18;
+
+  layers.forEach((layer, index) => {
+    gsap.set(layer, { zIndex: index });
+  });
 
   movingLayers.forEach((layer, index) => {
     const offset = baseOffset + offsetStep * index;
@@ -44,11 +49,11 @@
   const timeline = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
-      trigger: stage,
+      trigger: heroSection,
       start: 'top top',
       end: () => `+=${scrollSpan}%`,
       scrub: true,
-      pin: stage,
+      pin: heroSection,
       anticipatePin: 1,
     },
   });
