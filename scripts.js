@@ -1,75 +1,64 @@
 (function () {
-  const layers = document.querySelectorAll('.layer');
-  const hero = document.getElementById('hero');
-  const heroInner = hero ? hero.querySelector('.hero__inner') : null;
   const yearEl = document.getElementById('year');
-
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
+})();
 
-  if (!hero || !layers.length || !heroInner) {
-    return;
+(function () {
+  // Respect reduced motion
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || typeof gsap === 'undefined') return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const stage = document.querySelector('#hero .parallax-stage');
+  if (!stage) return;
+
+  // Collect layers foreground -> background (0..7). If some IDs missing, fall back to class order.
+  const layers = [];
+  for (let i = 0; i <= 7; i++) {
+    const el = document.getElementById('hero_' + i);
+    if (el) layers.push(el);
+  }
+  if (!layers.length) {
+    document.querySelectorAll('#hero .parallax-layer').forEach((el) => layers.push(el));
   }
 
-  const layerData = Array.from(layers).map((layer) => ({
-    element: layer,
-    speed: Number(layer.dataset.speed) || 0,
-    reveal: Number(layer.dataset.reveal || 0),
-  }));
+  // Parallax factors: foreground moves most, background least.
+  const factors = [1.0, 0.85, 0.7, 0.55, 0.4, 0.3, 0.2, 0.12];
 
-  const maxRevealOrder = layerData.reduce(
-    (max, layer) => (layer.reveal > max ? layer.reveal : max),
-    0
-  );
-  const totalRevealSteps = maxRevealOrder + 1;
-  const revealStep = totalRevealSteps > 0 ? 1 / totalRevealSteps : 1;
+  // Start offset in viewport-relative units so it scales on mobile/desktop.
+  const baseOffsetVH = 18; // tweak for more/less travel
 
-  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-  const easeOutCubic = (value) => 1 - Math.pow(1 - value, 3);
+  // Ensure everything starts with the “sun” composition centered;
+  // we only move layers relative to that frame.
+  layers.forEach((el, idx) => {
+    const f = factors[idx] ?? factors[factors.length - 1];
+    gsap.set(el, { yPercent: baseOffsetVH * f });
+  });
 
-  const heroRect = hero.getBoundingClientRect();
-  let heroTop = heroRect.top + window.scrollY;
-  let heroHeight = hero.offsetHeight;
-  let heroInnerHeight = heroInner.offsetHeight;
-  let pinDistance = Math.max(heroHeight - heroInnerHeight, 1);
+  // Build timeline mapped to scroll; pin the section.
+  const tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: '+=200%',
+      scrub: true,
+      pin: true,
+      anticipatePin: 1,
+    },
+  });
 
-  const updateMetrics = () => {
-    const rect = hero.getBoundingClientRect();
-    heroTop = rect.top + window.scrollY;
-    heroHeight = hero.offsetHeight;
-    heroInnerHeight = heroInner.offsetHeight;
-    pinDistance = Math.max(heroHeight - heroInnerHeight, 1);
-  };
+  // Animate each layer upward to y=0. Background (higher index) moves less.
+  layers.forEach((el, idx) => {
+    const f = factors[idx] ?? factors[factors.length - 1];
+    tl.to(el, { yPercent: 0 }, 0);
+  });
 
-  const handleScroll = () => {
-    const scrollY = window.scrollY;
-    const pinnedScroll = scrollY - heroTop;
-    const progress = clamp(pinnedScroll / pinDistance, 0, 1);
-    const revealProgress = progress;
-
-    layerData.forEach(({ element, speed, reveal }) => {
-      const start = clamp(reveal * revealStep, 0, 1);
-      const end = reveal === maxRevealOrder ? 1 : clamp(start + revealStep, 0, 1);
-      const range = end - start || 1;
-      const rawProgress = (revealProgress - start) / range;
-      const layerProgress = clamp(rawProgress, 0, 1);
-      const easedProgress = easeOutCubic(layerProgress);
-
-      const translate = (1 - easedProgress) * 40 * (1 + speed);
-      element.style.transform = `translate3d(0, ${translate}vh, 0)`;
-      element.style.opacity = easedProgress.toString();
-    });
-  };
-
-  const handleResize = () => {
-    updateMetrics();
-    handleScroll();
-  };
-
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  window.addEventListener('resize', handleResize);
-
-  updateMetrics();
-  handleScroll();
+  // Refresh on resize/orientation changes
+  const refresh = () => ScrollTrigger.refresh();
+  window.addEventListener('resize', refresh);
+  window.addEventListener('orientationchange', refresh);
 })();

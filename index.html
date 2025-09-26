@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -28,33 +30,17 @@
   </header>
 
   <main>
-    <section id="hero" class="hero" aria-label="Starstruck Galaxy hero section">
+    <section id="hero" class="hero" aria-label="Starstruck hero">
       <div class="hero__inner">
-        <div class="parallax" aria-hidden="true">
-          <div class="layer layer--7" data-speed="0.15" data-reveal="0">
-            <div class="layer__image" role="presentation"></div>
-          </div>
-          <div class="layer layer--6" data-speed="0.25" data-reveal="1">
-            <div class="layer__image" role="presentation"></div>
-          </div>
-          <div class="layer layer--5" data-speed="0.35" data-reveal="2">
-            <div class="layer__image" role="presentation"></div>
-          </div>
-          <div class="layer layer--4" data-speed="0.45" data-reveal="3">
-            <div class="layer__image" role="presentation"></div>
-          </div>
-          <div class="layer layer--3" data-speed="0.6" data-reveal="4">
-            <div class="layer__image" role="presentation"></div>
-          </div>
-          <div class="layer layer--2" data-speed="0.75" data-reveal="5">
-            <div class="layer__image" role="presentation"></div>
-          </div>
-          <div class="layer layer--1" data-speed="0.9" data-reveal="6">
-            <div class="layer__image" role="presentation"></div>
-          </div>
-          <div class="layer layer--0" data-speed="1.05" data-reveal="7">
-            <div class="layer__image" role="presentation"></div>
-          </div>
+        <div class="parallax-stage" data-aspect="1" aria-hidden="true">
+          <img id="hero_0" class="parallax-layer" src="hero_0.png" alt="" />
+          <img id="hero_1" class="parallax-layer" src="hero_1.png" alt="" />
+          <img id="hero_2" class="parallax-layer" src="hero_2.png" alt="" />
+          <img id="hero_3" class="parallax-layer" src="hero_3.png" alt="" />
+          <img id="hero_4" class="parallax-layer" src="hero_4.png" alt="" />
+          <img id="hero_5" class="parallax-layer" src="hero_5.png" alt="" />
+          <img id="hero_6" class="parallax-layer" src="hero_6.png" alt="" />
+          <img id="hero_7" class="parallax-layer" src="hero_7.png" alt="" />
         </div>
         <div class="hero__content container">
           <h1 class="hero__title">Blast Off Into a Funky Musical Universe</h1>
