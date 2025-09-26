@@ -3,6 +3,8 @@
   const hero = document.getElementById('hero');
   const pin = document.getElementById('hero-pin');
   const yearEl = document.getElementById('year');
+  const HOLD_TAIL = 0.5; // last 15% of the pin is a hold (tweak 0.1–0.25)
+
 
   if (yearEl) yearEl.textContent = new Date().getFullYear();
   if (!pin || !hero || !layers.length) return;
@@ -58,10 +60,20 @@
     });
   }
 
+  function mapProgressWithHold(raw) {
+    // raw is (scrollY - pinTop) / pinScrollable, usually 0..1
+    const hold = Math.max(0, Math.min(0.9, HOLD_TAIL)); // clamp just in case
+    const active = 1 - hold;                             // portion that actually animates
+    if (raw <= 0) return 0;
+    if (raw >= 1) return 1;
+    if (raw >= active) return 1;                         // plateau/linger
+    return raw / active;                                 // rescale 0..active -> 0..1
+  }
+
   function onScroll() {
     const y = window.scrollY;
     const raw = (y - pinTop) / pinScrollable;
-    apply(raw);
+    apply(mapProgressWithHold(raw));
   }
 
   function onResize() {
