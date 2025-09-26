@@ -1,4 +1,7 @@
 (function () {
+  const logo = document.querySelector('.logo-splash');
+  const LOGO_TRAVEL = 0.95; // fraction of viewport height the logo moves (1:1 px)
+
   const layers = Array.from(document.querySelectorAll('.layer'));
   const hero = document.getElementById('hero');
   const pin = document.getElementById('hero-pin');
@@ -7,7 +10,6 @@
   const EXIT_RAMP       = 0.1; // last 8% of pin is the ease-out ramp
   const EXIT_LIFT_VH    = 16;   // lift hero up by ~16vh during the ramp
   const USE_EXIT_EASING = true; // ease shape for the ramp
-
 
   if (yearEl) yearEl.textContent = new Date().getFullYear();
   if (!pin || !hero || !layers.length) return;
@@ -31,12 +33,26 @@
   // Precompute linear start/speed by depth
   const minOrder = Math.min(...layerData.map(l => l.order));
   const maxOrder = Math.max(...layerData.map(l => l.order));
+
+  const STATIONARY_ORDER = 7;
+
+  const GLOBAL_START_BOOST_VH = 160; // extra 30vh added to every non-stationary layer
+
   layerData.forEach(l => {
     // depthNear = 1 for layer--0 (near), 0 for layer--7 (far)
     const t = (l.order - minOrder) / Math.max(1, (maxOrder - minOrder));
     const depthNear = 1 - t;
+
+    if (l.order === STATIONARY_ORDER) {
+      l.start = 0;  // no offset
+      l.speed = 0;  // no movement
+      return;
+    }
+
     l.start = START_FAR_VH + (START_NEAR_VH - START_FAR_VH) * depthNear;
     l.speed = SPEED_FAR  + (SPEED_NEAR   - SPEED_FAR)   * depthNear;
+
+    if (l.order !== STATIONARY_ORDER) l.start += GLOBAL_START_BOOST_VH;
   });
 
   let vpH = 0, pinTop = 0, pinHeight = 0, pinScrollable = 1;
@@ -86,15 +102,52 @@
 
   function onScroll() {
     const y = window.scrollY;
-    const raw = (y - pinTop) / pinScrollable;
-    const { p, exitT } = mapWithHoldAndExit(raw);
-    apply(p);
+    const scrolledPx = Math.min(Math.max(y - pinTop, 0), pinScrollable);
 
-    // Ease the hero upward during the final ramp
-    const ramp = USE_EXIT_EASING ? easeInOutCubic(exitT) : exitT;
-    const lift = -EXIT_LIFT_VH * ramp; // negative moves up
-    hero.style.transform = `translate3d(0, ${lift}vh, 0)`;
+    // 1) Logo phase: move 1:1 (px) until it's off-screen
+    const logoExitPx = Math.round(vpH * LOGO_TRAVEL);
+    if (logo) {
+      const liftPx = -Math.min(scrolledPx, logoExitPx); // 1:1 with scroll
+      logo.style.transform = `translate3d(0, ${liftPx}px, 0)`;
+      // Optional: once past exit, hide it completely
+      logo.style.opacity = scrolledPx >= logoExitPx ? '0' : '1';
+    }
+
+    // 2) Parallax phase: starts after logo exits
+    const segLen = Math.max(1, pinScrollable - logoExitPx);
+    const segRaw = (scrolledPx - logoExitPx) / segLen; // 0..1 within the remainder
+
+    // If you have the hold/exit-ramp mapper, use it; else just clamp
+    let p = Math.min(Math.max(segRaw, 0), 1);
+    let exitT = 0;
+
+    if (typeof mapWithHoldAndExit === 'function') {
+      const mapped = mapWithHoldAndExit(p);
+      p = mapped.p;
+      exitT = mapped.exitT || 0;
+    }
+
+    apply(p); // drive your parallax layers
+
+    // If you implemented the hero exit ramp earlier, keep lifting during that ramp:
+    if (typeof easeInOutCubic === 'function' && typeof USE_EXIT_EASING !== 'undefined') {
+      const ramp = USE_EXIT_EASING ? easeInOutCubic(exitT) : exitT;
+      const lift = - (window.EXIT_LIFT_VH || 16) * ramp; // use your existing config
+      hero.style.transform = `translate3d(0, ${lift}vh, 0)`;
+    }
   }
+
+  // function onScroll() {
+  //   const y = window.scrollY;
+  //   const raw = (y - pinTop) / pinScrollable;
+  //   const { p, exitT } = mapWithHoldAndExit(raw);
+  //   apply(p);
+
+  //   // Ease the hero upward during the final ramp
+  //   const ramp = USE_EXIT_EASING ? easeInOutCubic(exitT) : exitT;
+  //   const lift = -EXIT_LIFT_VH * ramp; // negative moves up
+  //   hero.style.transform = `translate3d(0, ${lift}vh, 0)`;
+  // }
 
   function onResize() {
     measure();
