@@ -57,8 +57,19 @@
 
   let vpH = 0, pinTop = 0, pinHeight = 0, pinScrollable = 1;
 
+  // function measure() {
+  //   vpH = window.innerHeight;
+  //   const rect = pin.getBoundingClientRect();
+  //   const start = rect.top + window.scrollY;
+  //   const end = start + pin.offsetHeight - vpH;
+  //   pinTop = start;
+  //   pinHeight = pin.offsetHeight;
+  //   pinScrollable = Math.max(1, end - start);
+  // }
+
+  // use visual viewport height on mobile if available
   function measure() {
-    vpH = window.innerHeight;
+    vpH = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
     const rect = pin.getBoundingClientRect();
     const start = rect.top + window.scrollY;
     const end = start + pin.offsetHeight - vpH;
@@ -66,6 +77,7 @@
     pinHeight = pin.offsetHeight;
     pinScrollable = Math.max(1, end - start);
   }
+
 
   function apply(progress) {
     const p = Math.min(Math.max(progress, 0), 1);
@@ -105,12 +117,21 @@
     const scrolledPx = Math.min(Math.max(y - pinTop, 0), pinScrollable);
 
     // 1) Logo phase: move 1:1 (px) until it's off-screen
+    // const logoExitPx = Math.round(vpH * LOGO_TRAVEL);
+    // if (logo) {
+    //   const liftPx = -Math.min(scrolledPx, logoExitPx); // 1:1 with scroll
+    //   logo.style.transform = `translate3d(0, ${liftPx}px, 0)`;
+    //   // Optional: once past exit, hide it completely
+    //   logo.style.opacity = scrolledPx >= logoExitPx ? '0' : '1';
+    // }
+
     const logoExitPx = Math.round(vpH * LOGO_TRAVEL);
     if (logo) {
-      const liftPx = -Math.min(scrolledPx, logoExitPx); // 1:1 with scroll
+      const liftPx = -Math.min(scrolledPx, logoExitPx);
       logo.style.transform = `translate3d(0, ${liftPx}px, 0)`;
-      // Optional: once past exit, hide it completely
-      logo.style.opacity = scrolledPx >= logoExitPx ? '0' : '1';
+      // add a small buffer so it never starts hidden at top on iOS
+      const hideAt = logoExitPx - 8; // px buffer
+      logo.style.opacity = scrolledPx > hideAt ? '0' : '1';
     }
 
     // 2) Parallax phase: starts after logo exits
@@ -137,6 +158,7 @@
     }
   }
 
+  
   // function onScroll() {
   //   const y = window.scrollY;
   //   const raw = (y - pinTop) / pinScrollable;
@@ -162,4 +184,9 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onResize);
   window.addEventListener('load', onResize);
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', onResize);
+  }
+
 })();
