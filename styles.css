@@ -123,6 +123,7 @@ a:focus-visible {
   display: grid;
   gap: clamp(4rem, 8vw, 6rem);
   justify-items: center;
+  align-content: start;
 }
 
 .hero__content {
