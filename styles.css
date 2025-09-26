@@ -237,6 +237,30 @@ a:focus-visible {
   color: var(--color-text-muted);
 }
 
+/* The tall scrollytelling container that creates scroll distance */
+.hero-pin {
+  /* Controls how long the pin lasts. Set via inline --pin-height above. */
+  height: var(--pin-height, 220vh);
+  position: relative;
+}
+
+/* Sticky hero that holds at the top while you scroll through .hero-pin */
+.hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;              /* lock viewport height while pinned */
+  min-height: 100vh;          /* override your previous min-height */
+  display: grid;
+  align-items: end;
+  padding: 12rem 0 6rem;
+  overflow: hidden;
+}
+
+/* Optional: while pinned we want layers to start below the fold */
+.layer {
+  will-change: transform, opacity;
+}
+
 .cta-button {
   display: inline-flex;
   align-items: center;
