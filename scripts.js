@@ -1,13 +1,14 @@
 (function () {
   const layers = document.querySelectorAll('.layer');
   const hero = document.getElementById('hero');
+  const heroInner = hero ? hero.querySelector('.hero__inner') : null;
   const yearEl = document.getElementById('year');
 
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  if (!hero || !layers.length) {
+  if (!hero || !layers.length || !heroInner) {
     return;
   }
 
@@ -22,20 +23,27 @@
     0
   );
 
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
   const heroRect = hero.getBoundingClientRect();
   let heroTop = heroRect.top + window.scrollY;
-  let heroHeight = heroRect.height;
+  let heroHeight = hero.offsetHeight;
+  let heroInnerHeight = heroInner.offsetHeight;
+  let pinDistance = Math.max(heroHeight - heroInnerHeight, 1);
 
   const updateMetrics = () => {
     const rect = hero.getBoundingClientRect();
     heroTop = rect.top + window.scrollY;
-    heroHeight = rect.height;
+    heroHeight = hero.offsetHeight;
+    heroInnerHeight = heroInner.offsetHeight;
+    pinDistance = Math.max(heroHeight - heroInnerHeight, 1);
   };
 
   const handleScroll = () => {
     const scrollY = window.scrollY;
-    const progress = Math.min(Math.max((scrollY - heroTop) / heroHeight, 0), 1.5);
-    const revealProgress = Math.min(Math.max((scrollY - heroTop) / heroHeight, 0), 1);
+    const pinnedScroll = scrollY - heroTop;
+    const progress = clamp(pinnedScroll / pinDistance, 0, 1);
+    const revealProgress = progress;
 
     layerData.forEach(({ element, speed, reveal }) => {
       const translate = progress * speed * -120;
