@@ -3,7 +3,10 @@
   const hero = document.getElementById('hero');
   const pin = document.getElementById('hero-pin');
   const yearEl = document.getElementById('year');
-  const HOLD_TAIL = 0.5; // last 15% of the pin is a hold (tweak 0.1–0.25)
+  const HOLD_TAIL = 0.25; // last 15% of the pin is a hold (tweak 0.1–0.25)
+  const EXIT_RAMP       = 0.1; // last 8% of pin is the ease-out ramp
+  const EXIT_LIFT_VH    = 16;   // lift hero up by ~16vh during the ramp
+  const USE_EXIT_EASING = true; // ease shape for the ramp
 
 
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -60,20 +63,37 @@
     });
   }
 
-  function mapProgressWithHold(raw) {
-    // raw is (scrollY - pinTop) / pinScrollable, usually 0..1
-    const hold = Math.max(0, Math.min(0.9, HOLD_TAIL)); // clamp just in case
-    const active = 1 - hold;                             // portion that actually animates
-    if (raw <= 0) return 0;
-    if (raw >= 1) return 1;
-    if (raw >= active) return 1;                         // plateau/linger
-    return raw / active;                                 // rescale 0..active -> 0..1
+  function easeInOutCubic(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+
+  function mapWithHoldAndExit(raw){
+    const c = Math.min(Math.max(raw, 0), 1);
+    const animEnd    = Math.max(0, 1 - HOLD_TAIL - EXIT_RAMP); // end of main animation
+    const plateauEnd = Math.max(animEnd, 1 - EXIT_RAMP);       // end of plateau, start ramp
+
+    let p = 0;      // parallax progress 0..1
+    let exitT = 0;  // exit ramp 0..1
+
+    if (c <= animEnd) {
+      p = c / Math.max(1e-6, animEnd);
+    } else if (c <= plateauEnd) {
+      p = 1; // hold/plateau
+    } else {
+      p = 1;
+      exitT = (c - plateauEnd) / Math.max(1e-6, 1 - plateauEnd);
+    }
+    return { p, exitT };
   }
 
   function onScroll() {
     const y = window.scrollY;
     const raw = (y - pinTop) / pinScrollable;
-    apply(mapProgressWithHold(raw));
+    const { p, exitT } = mapWithHoldAndExit(raw);
+    apply(p);
+
+    // Ease the hero upward during the final ramp
+    const ramp = USE_EXIT_EASING ? easeInOutCubic(exitT) : exitT;
+    const lift = -EXIT_LIFT_VH * ramp; // negative moves up
+    hero.style.transform = `translate3d(0, ${lift}vh, 0)`;
   }
 
   function onResize() {
