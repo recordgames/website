@@ -16,7 +16,6 @@
   --color-text-muted: rgba(247, 244, 255, 0.7);
   --shadow-elevated: 0 24px 64px rgba(0, 0, 0, 0.45);
   --max-width: 1100px;
-  --hero-pin-distance: 140vh;
   color-scheme: dark;
 }
 
@@ -117,105 +116,13 @@ a:focus-visible {
 
 .hero {
   position: relative;
-  padding-bottom: var(--hero-pin-distance);
+  padding: clamp(6rem, 11vw, 8rem) 0 clamp(4rem, 9vw, 6rem);
 }
 
 .hero__inner {
-  position: sticky;
-  top: 0;
-  min-height: clamp(720px, 110vh, 960px);
   display: grid;
-  align-items: end;
-  padding: 12rem 0 6rem;
-  overflow: hidden;
-}
-
-.parallax {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.layer {
-  position: absolute;
-  inset: -12vh -12vw;
-  transform: translate3d(0, 50vh, 0);
-  opacity: 0;
-  transition: opacity 0.6s ease-out;
-}
-
-.layer__image {
-  width: 100%;
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.layer--7 {
-  z-index: 1;
-}
-
-.layer--6 {
-  z-index: 2;
-}
-
-.layer--5 {
-  z-index: 3;
-}
-
-.layer--4 {
-  z-index: 4;
-}
-
-.layer--3 {
-  z-index: 5;
-}
-
-.layer--2 {
-  z-index: 6;
-}
-
-.layer--1 {
-  z-index: 7;
-}
-
-.layer--0 {
-  z-index: 8;
-}
-
-.layer--7 .layer__image {
-  background-image: url('hero_7.png');
-  background-size: cover;
-}
-
-.layer--6 .layer__image {
-  background-image: url('hero_6.png');
-}
-
-.layer--5 .layer__image {
-  background-image: url('hero_5.png');
-}
-
-.layer--4 .layer__image {
-  background-image: url('hero_4.png');
-}
-
-.layer--3 .layer__image {
-  background-image: url('hero_3.png');
-}
-
-.layer--2 .layer__image {
-  background-image: url('hero_2.png');
-}
-
-.layer--1 .layer__image {
-  background-image: url('hero_1.png');
-}
-
-.layer--0 .layer__image {
-  background-image: url('hero_0.png');
+  gap: clamp(4rem, 8vw, 6rem);
+  justify-items: center;
 }
 
 .hero__content {
@@ -410,9 +317,16 @@ a:focus-visible {
 /* Maintain a square stage that scales responsively. Change aspect via data-aspect if needed */
 .parallax-stage {
   position: relative;
-  width: min(90vmin, 100vw);
+  width: min(90vmin, 960px);
   aspect-ratio: 1 / 1;
   max-height: 90vh;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: clamp(18px, 4vw, 32px);
+  box-shadow: 0 32px 80px rgba(5, 0, 25, 0.55);
+  background: radial-gradient(circle at 50% 0%, rgba(61, 231, 255, 0.12), transparent 65%),
+    rgba(9, 0, 22, 0.85);
 }
 
 .parallax-layer {
@@ -437,16 +351,7 @@ a:focus-visible {
   }
 }
 
-#hero .hero__inner {
-  position: static;
-  top: auto;
-  min-height: auto;
-  display: grid;
-  gap: 3rem;
-  align-items: center;
-  justify-items: center;
-  padding: clamp(6rem, 10vw, 8rem) 0 6rem;
-}
+
 
 .site-footer {
   background: rgba(9, 0, 22, 0.85);
@@ -517,11 +422,11 @@ a:focus-visible {
   }
 
   .hero {
-    padding: 10rem 0 4rem;
+    padding: clamp(5rem, 14vw, 7rem) 0 clamp(3rem, 12vw, 5rem);
   }
 
-  .layer__image {
-    width: min(600px, 120vw);
+  .parallax-stage {
+    width: min(95vmin, 100vw);
   }
 }
 
@@ -530,9 +435,7 @@ a:focus-visible {
     scroll-behavior: auto;
   }
 
-  .parallax,
-  .layer,
-  .layer__image {
+  .parallax-layer {
     animation: none;
     transform: none !important;
   }
