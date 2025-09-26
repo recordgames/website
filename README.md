@@ -1,2 +1,2 @@
 # website
-Vibe coded website
+Starstruck Galaxy website
