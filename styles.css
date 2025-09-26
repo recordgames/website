@@ -132,45 +132,87 @@ a:focus-visible {
 
 .layer {
   position: absolute;
-  inset: -10vh -10vw;
-  display: grid;
-  place-items: center;
+  inset: -12vh -12vw;
   transform: translateZ(0);
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+
+.layer[data-reveal='0'] {
+  opacity: 1;
 }
 
 .layer__image {
-  width: min(900px, 85vw);
-  aspect-ratio: 1;
-  border-radius: 24px;
-  background: linear-gradient(135deg, rgba(61, 231, 255, 0.28), rgba(255, 79, 216, 0.36));
-  box-shadow: var(--shadow-elevated);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(247, 244, 255, 0.2);
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
-.layer--logo .layer__image {
-  background: url('assets/hero-logo.png') center/contain no-repeat,
-    linear-gradient(135deg, rgba(255, 79, 216, 0.5), rgba(61, 231, 255, 0.5));
+.layer--7 {
+  z-index: 1;
 }
 
-.layer--far-bg .layer__image {
-  background: url('assets/hero-far-background.png') center/cover no-repeat,
-    linear-gradient(160deg, rgba(13, 2, 33, 0.9), rgba(61, 231, 255, 0.25));
+.layer--6 {
+  z-index: 2;
 }
 
-.layer--near-bg .layer__image {
-  background: url('assets/hero-near-background.png') center/contain no-repeat,
-    linear-gradient(200deg, rgba(61, 231, 255, 0.4), rgba(255, 79, 216, 0.45));
+.layer--5 {
+  z-index: 3;
 }
 
-.layer--far-fg .layer__image {
-  background: url('assets/hero-far-foreground.png') center/contain no-repeat,
-    linear-gradient(215deg, rgba(61, 231, 255, 0.3), rgba(255, 216, 79, 0.35));
+.layer--4 {
+  z-index: 4;
 }
 
-.layer--near-fg .layer__image {
-  background: url('assets/hero-near-foreground.png') center/contain no-repeat,
-    linear-gradient(215deg, rgba(255, 79, 216, 0.4), rgba(255, 216, 79, 0.35));
+.layer--3 {
+  z-index: 5;
+}
+
+.layer--2 {
+  z-index: 6;
+}
+
+.layer--1 {
+  z-index: 7;
+}
+
+.layer--0 {
+  z-index: 8;
+}
+
+.layer--7 .layer__image {
+  background-image: url('hero_7.png');
+  background-size: cover;
+}
+
+.layer--6 .layer__image {
+  background-image: url('hero_6.png');
+}
+
+.layer--5 .layer__image {
+  background-image: url('hero_5.png');
+}
+
+.layer--4 .layer__image {
+  background-image: url('hero_4.png');
+}
+
+.layer--3 .layer__image {
+  background-image: url('hero_3.png');
+}
+
+.layer--2 .layer__image {
+  background-image: url('hero_2.png');
+}
+
+.layer--1 .layer__image {
+  background-image: url('hero_1.png');
+}
+
+.layer--0 .layer__image {
+  background-image: url('hero_0.png');
 }
 
 .hero__content {

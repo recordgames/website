@@ -11,6 +11,17 @@
     return;
   }
 
+  const layerData = Array.from(layers).map((layer) => ({
+    element: layer,
+    speed: Number(layer.dataset.speed) || 0,
+    reveal: Number(layer.dataset.reveal || 0),
+  }));
+
+  const maxRevealOrder = layerData.reduce(
+    (max, layer) => (layer.reveal > max ? layer.reveal : max),
+    0
+  );
+
   const heroRect = hero.getBoundingClientRect();
   let heroTop = heroRect.top + window.scrollY;
   let heroHeight = heroRect.height;
@@ -24,11 +35,21 @@
   const handleScroll = () => {
     const scrollY = window.scrollY;
     const progress = Math.min(Math.max((scrollY - heroTop) / heroHeight, 0), 1.5);
+    const revealProgress = Math.min(Math.max((scrollY - heroTop) / heroHeight, 0), 1);
 
-    layers.forEach((layer) => {
-      const speed = Number(layer.dataset.speed) || 0;
+    layerData.forEach(({ element, speed, reveal }) => {
       const translate = progress * speed * -120;
-      layer.style.transform = `translate3d(0, ${translate}vh, 0)`;
+      element.style.transform = `translate3d(0, ${translate}vh, 0)`;
+
+      if (reveal === 0 || maxRevealOrder === 0) {
+        element.style.opacity = '1';
+        return;
+      }
+
+      const step = 1 / maxRevealOrder;
+      const start = (reveal - 1) * step;
+      const opacity = Math.min(Math.max((revealProgress - start) / step, 0), 1);
+      element.style.opacity = opacity.toString();
     });
   };
 
