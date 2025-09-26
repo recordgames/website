@@ -22,8 +22,11 @@
     (max, layer) => (layer.reveal > max ? layer.reveal : max),
     0
   );
+  const totalRevealSteps = maxRevealOrder + 1;
+  const revealStep = totalRevealSteps > 0 ? 1 / totalRevealSteps : 1;
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+  const easeOutCubic = (value) => 1 - Math.pow(1 - value, 3);
 
   const heroRect = hero.getBoundingClientRect();
   let heroTop = heroRect.top + window.scrollY;
@@ -46,18 +49,16 @@
     const revealProgress = progress;
 
     layerData.forEach(({ element, speed, reveal }) => {
-      const translate = progress * speed * -120;
+      const start = clamp(reveal * revealStep, 0, 1);
+      const end = reveal === maxRevealOrder ? 1 : clamp(start + revealStep, 0, 1);
+      const range = end - start || 1;
+      const rawProgress = (revealProgress - start) / range;
+      const layerProgress = clamp(rawProgress, 0, 1);
+      const easedProgress = easeOutCubic(layerProgress);
+
+      const translate = (1 - easedProgress) * 40 * (1 + speed);
       element.style.transform = `translate3d(0, ${translate}vh, 0)`;
-
-      if (reveal === 0 || maxRevealOrder === 0) {
-        element.style.opacity = '1';
-        return;
-      }
-
-      const step = 1 / maxRevealOrder;
-      const start = (reveal - 1) * step;
-      const opacity = Math.min(Math.max((revealProgress - start) / step, 0), 1);
-      element.style.opacity = opacity.toString();
+      element.style.opacity = easedProgress.toString();
     });
   };
 
