@@ -18,50 +18,53 @@
   const layers = Array.from(stage.querySelectorAll('.parallax-layer'));
   if (!layers.length) return;
 
-  const anchorLayer = stage.querySelector('#hero_7') || layers[layers.length - 1];
-  const movingLayers = layers.filter((layer) => layer !== anchorLayer);
+  const getLayerIndex = (layer) => {
+    const match = layer.id && layer.id.match(/hero_(\d+)/);
+    return match ? Number(match[1]) : 0;
+  };
 
-  if (!movingLayers.length) return;
-
-  const baseOffset = 120;
-  const offsetStep = 18;
-
-  layers.forEach((layer, index) => {
-    gsap.set(layer, { zIndex: index });
+  // Ensure layers stack in the correct order (0 is foreground, 7 is background)
+  layers.forEach((layer) => {
+    const depth = getLayerIndex(layer);
+    gsap.set(layer, { zIndex: 100 - depth });
   });
 
-  movingLayers.forEach((layer, index) => {
-    const offset = baseOffset + offsetStep * index;
-    gsap.set(layer, { yPercent: offset });
+  const backgroundLayer = layers.reduce((acc, layer) =>
+    getLayerIndex(layer) > getLayerIndex(acc) ? layer : acc
+  , layers[0]);
+
+  const revealLayers = layers
+    .filter((layer) => layer !== backgroundLayer)
+    .sort((a, b) => getLayerIndex(b) - getLayerIndex(a));
+
+  if (!revealLayers.length) return;
+
+  revealLayers.forEach((layer) => {
+    gsap.set(layer, { yPercent: 60, autoAlpha: 0 });
   });
 
-  gsap.set(anchorLayer, { yPercent: 0 });
+  gsap.set(backgroundLayer, { autoAlpha: 1, yPercent: 0 });
 
-  const slowDuration = 1.1;
-  const fastDuration = 0.35;
-  const count = movingLayers.length;
-  const durationStep = count > 1 ? (slowDuration - fastDuration) / (count - 1) : 0;
-  const baseDelay = slowDuration;
-  const finalDuration = slowDuration - durationStep * (count - 1);
-  const totalDuration = (count - 1) * baseDelay + finalDuration;
-  const scrollSpan = Math.max(totalDuration * 80, 320);
+  const revealDuration = 0.9;
+  const stagger = 0.55;
+  const totalScrollTime = (revealLayers.length - 1) * stagger + revealDuration;
+  const scrollDistance = Math.max(totalScrollTime * 450, 1400);
 
   const timeline = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: heroSection,
       start: 'top top',
-      end: () => `+=${scrollSpan}%`,
+      end: `+=${scrollDistance}`,
       scrub: true,
       pin: heroSection,
       anticipatePin: 1,
     },
   });
 
-  movingLayers.forEach((layer, index) => {
-    const duration = slowDuration - durationStep * index;
-    const startTime = index * baseDelay;
-    timeline.to(layer, { yPercent: 0, duration }, startTime);
+  revealLayers.forEach((layer, index) => {
+    const startTime = index * stagger;
+    timeline.to(layer, { autoAlpha: 1, yPercent: 0, duration: revealDuration }, startTime);
   });
 
   const refresh = () => ScrollTrigger.refresh();
