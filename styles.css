@@ -140,13 +140,9 @@ a:focus-visible {
 .layer {
   position: absolute;
   inset: -12vh -12vw;
-  transform: translateZ(0);
+  transform: translate3d(0, 50vh, 0);
   opacity: 0;
   transition: opacity 0.6s ease-out;
-}
-
-.layer[data-reveal='0'] {
-  opacity: 1;
 }
 
 .layer__image {
