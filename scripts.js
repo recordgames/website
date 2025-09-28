@@ -1,6 +1,6 @@
 (function () {
   const logo = document.querySelector('.logo-splash');
-  const LOGO_TRAVEL = 0.75; // fraction of viewport height before parallax segment begins
+  const LOGO_TRAVEL = 0.05; // fraction of viewport height before parallax segment begins
   const LOGO_EXIT_TRAVEL = 0.95; // fraction of viewport height the logo travels before fading out
   const LOGO_BASE_SHIFT_VH = -6;   // negative = move up (tweak: -4…-10)
   const CENTER_BELOW_HEADER = true; // also compensate for sticky header height
