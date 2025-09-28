@@ -129,6 +129,17 @@ a:focus-visible {
   filter: drop-shadow(0 12px 24px rgba(0,0,0,0.45));
 }
 
+.logo-splash__tagline {
+  margin-top: clamp(1rem, 2vw, 1.75rem);
+  font-family: var(--font-display);
+  font-size: clamp(0.75rem, 1.8vw, 1.25rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  text-align: center;
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
 .hero {
   position: relative;
   min-height: clamp(720px, 110vh, 960px);
