@@ -23,6 +23,7 @@
   const SPEED_NEAR    = 1.2;  // layer--0 moves fastest
   const SPEED_FAR     = 0.0;  // layer--7 moves slowest
   const USE_EASING    = true; // set false for perfectly linear motion
+  const SHRINK_LAYERS = { start: 2, end: 6, max: 0.1 }; // shrink layers 2-6 by up to 10%
   // --------------------------------------------------------
 
   // Build layer model (infer order from class layer--N)
@@ -97,7 +98,15 @@
 
       const eased = USE_EASING ? (1 - Math.pow(1 - p, 3)) : p; // easeOutCubic or linear
       const translateVH = (1 - eased) * start * speed;
-      el.style.transform = `translate3d(0, ${translateVH}vh, 0)`;
+
+      let transform = `translate3d(0, ${translateVH}vh, 0)`;
+      if (l.order >= SHRINK_LAYERS.start && l.order <= SHRINK_LAYERS.end) {
+        const shrinkProgress = Math.min(Math.max(p, 0), 1);
+        const scale = 1 - SHRINK_LAYERS.max * shrinkProgress;
+        transform += ` scale(${scale})`;
+      }
+
+      el.style.transform = transform;
       // No fade/reveal anymore
       el.style.opacity = '1';
     });
