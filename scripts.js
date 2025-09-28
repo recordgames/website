@@ -156,19 +156,6 @@
     }
   }
 
-  
-  // function onScroll() {
-  //   const y = window.scrollY;
-  //   const raw = (y - pinTop) / pinScrollable;
-  //   const { p, exitT } = mapWithHoldAndExit(raw);
-  //   apply(p);
-
-  //   // Ease the hero upward during the final ramp
-  //   const ramp = USE_EXIT_EASING ? easeInOutCubic(exitT) : exitT;
-  //   const lift = -EXIT_LIFT_VH * ramp; // negative moves up
-  //   hero.style.transform = `translate3d(0, ${lift}vh, 0)`;
-  // }
-
   function onResize() {
     measure();
     onScroll();
