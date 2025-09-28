@@ -8,7 +8,7 @@
   const hero = document.getElementById('hero');
   const pin = document.getElementById('hero-pin');
   const yearEl = document.getElementById('year');
-  const HOLD_TAIL = 0.25; // last 15% of the pin is a hold (tweak 0.1–0.25)
+  const HOLD_TAIL = 0.25; // last 25% of the pin is a hold (tweak 0.1–0.25)
   const EXIT_RAMP       = 0.1; // last 8% of pin is the ease-out ramp
   const EXIT_LIFT_VH    = 16;   // lift hero up by ~16vh during the ramp
   const USE_EXIT_EASING = true; // ease shape for the ramp
@@ -38,7 +38,7 @@
 
   const STATIONARY_ORDER = 7;
 
-  const GLOBAL_START_BOOST_VH = 64; // extra 30vh added to every non-stationary layer
+  const GLOBAL_START_BOOST_VH = -64; // extra 30vh added to every non-stationary layer
 
   layerData.forEach(l => {
     // depthNear = 1 for layer--0 (near), 0 for layer--7 (far)
