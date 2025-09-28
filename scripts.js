@@ -1,6 +1,8 @@
 (function () {
   const logo = document.querySelector('.logo-splash');
   const LOGO_TRAVEL = 0.95; // fraction of viewport height the logo moves (1:1 px)
+  const LOGO_BASE_SHIFT_VH = -6;   // negative = move up (tweak: -4…-10)
+  const CENTER_BELOW_HEADER = true; // also compensate for sticky header height
 
   const layers = Array.from(document.querySelectorAll('.layer'));
   const hero = document.getElementById('hero');
@@ -55,7 +57,8 @@
     if (l.order !== STATIONARY_ORDER) l.start += GLOBAL_START_BOOST_VH;
   });
 
-  let vpH = 0, pinTop = 0, pinHeight = 0, pinScrollable = 1;
+  let vpH = 0, pinTop = 0, pinHeight = 0, pinScrollable = 1, headerH = 0;
+  const headerEl = document.querySelector('.site-header');
 
   // function measure() {
   //   vpH = window.innerHeight;
@@ -69,13 +72,14 @@
 
   // use visual viewport height on mobile if available
   function measure() {
-    vpH = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+    vpH = (window.visualViewport?.height) || window.innerHeight;
     const rect = pin.getBoundingClientRect();
     const start = rect.top + window.scrollY;
     const end = start + pin.offsetHeight - vpH;
     pinTop = start;
     pinHeight = pin.offsetHeight;
     pinScrollable = Math.max(1, end - start);
+    headerH = headerEl ? headerEl.offsetHeight : 0;
   }
 
 
@@ -127,10 +131,14 @@
 
     const logoExitPx = Math.round(vpH * LOGO_TRAVEL);
     if (logo) {
-      const liftPx = -Math.min(scrolledPx, logoExitPx);
+      // Base offset = manual VH shift + (optional) half the header height
+      const manualPx = (LOGO_BASE_SHIFT_VH / 100) * vpH;
+      const headerCompPx = CENTER_BELOW_HEADER ? -(headerH / 2) : 0;
+      const baseShiftPx = manualPx + headerCompPx;
+
+      const liftPx = baseShiftPx - Math.min(scrolledPx, logoExitPx);
       logo.style.transform = `translate3d(0, ${liftPx}px, 0)`;
-      // add a small buffer so it never starts hidden at top on iOS
-      const hideAt = logoExitPx - 8; // px buffer
+      const hideAt = logoExitPx - 8; // tiny buffer for iOS
       logo.style.opacity = scrolledPx > hideAt ? '0' : '1';
     }
 
