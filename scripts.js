@@ -26,10 +26,18 @@
 
   // Build layer model (infer order from class layer--N)
   const N = layers.length;
+  const DELAY_NEAR_LAYER = new Map([
+    [0, 0.18], // hero_0.png (layer--0) waits until 18% progress before rising
+  ]);
+
   const layerData = layers.map((el, i) => {
     const classMatch = el.className.match(/layer--(\d+)/);
     const inferred = classMatch ? Number(classMatch[1]) : (N - 1 - i);
-    return { el, order: inferred };
+    return {
+      el,
+      order: inferred,
+      delay: DELAY_NEAR_LAYER.get(inferred) || 0,
+    };
   }).sort((a, b) => a.order - b.order); // 0(front) ... 7(back)
 
   // Precompute linear start/speed by depth
@@ -74,10 +82,19 @@
 
 
   function apply(progress) {
-    const p = Math.min(Math.max(progress, 0), 1);
-    const eased = USE_EASING ? (1 - Math.pow(1 - p, 3)) : p; // easeOutCubic or linear
+    const globalProgress = Math.min(Math.max(progress, 0), 1);
 
-    layerData.forEach(({ el, start, speed }) => {
+    layerData.forEach(({ el, start, speed, delay }) => {
+      let p = globalProgress;
+      if (delay > 0) {
+        if (p <= delay) {
+          p = 0;
+        } else {
+          p = Math.min((p - delay) / Math.max(1e-6, 1 - delay), 1);
+        }
+      }
+
+      const eased = USE_EASING ? (1 - Math.pow(1 - p, 3)) : p; // easeOutCubic or linear
       const translateVH = (1 - eased) * start * speed;
       el.style.transform = `translate3d(0, ${translateVH}vh, 0)`;
       // No fade/reveal anymore
