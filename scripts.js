@@ -1,6 +1,7 @@
 (function () {
   const logo = document.querySelector('.logo-splash');
-  const LOGO_TRAVEL = 0.95; // fraction of viewport height the logo moves (1:1 px)
+  const LOGO_TRAVEL = 0.75; // fraction of viewport height before parallax segment begins
+  const LOGO_EXIT_TRAVEL = 0.95; // fraction of viewport height the logo travels before fading out
   const LOGO_BASE_SHIFT_VH = -6;   // negative = move up (tweak: -4…-10)
   const CENTER_BELOW_HEADER = true; // also compensate for sticky header height
 
@@ -136,7 +137,8 @@
     //   logo.style.opacity = scrolledPx >= logoExitPx ? '0' : '1';
     // }
 
-    const logoExitPx = Math.round(vpH * LOGO_TRAVEL);
+    const parallaxStartPx = Math.round(vpH * LOGO_TRAVEL);
+    const logoExitPx = Math.round(vpH * LOGO_EXIT_TRAVEL);
     if (logo) {
       // Base offset = manual VH shift + (optional) half the header height
       const manualPx = (LOGO_BASE_SHIFT_VH / 100) * vpH;
@@ -150,8 +152,8 @@
     }
 
     // 2) Parallax phase: starts after logo exits
-    const segLen = Math.max(1, pinScrollable - logoExitPx);
-    const segRaw = (scrolledPx - logoExitPx) / segLen; // 0..1 within the remainder
+    const segLen = Math.max(1, pinScrollable - parallaxStartPx);
+    const segRaw = (scrolledPx - parallaxStartPx) / segLen; // 0..1 within the remainder
 
     // If you have the hold/exit-ramp mapper, use it; else just clamp
     let p = Math.min(Math.max(segRaw, 0), 1);
