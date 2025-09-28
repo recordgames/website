@@ -18,8 +18,8 @@
   if (!pin || !hero || !layers.length) return;
 
   // ---- Tweak these to taste (linear mapping near→far) ----
-  const START_NEAR_VH = 1600;  // layer--0 starts 120vh below, travels most
-  const START_FAR_VH  = 0;   // layer--7 starts 10vh below, travels least
+  const START_NEAR_VH = 1600; // layer--0 starts 120vh below, travels most
+  const START_FAR_VH  = 0;    // layer--7 starts 10vh below, travels least
   const SPEED_NEAR    = 1.2;  // layer--0 moves fastest
   const SPEED_FAR     = 0.0;  // layer--7 moves slowest
   const USE_EASING    = true; // set false for perfectly linear motion
@@ -46,8 +46,7 @@
   const maxOrder = Math.max(...layerData.map(l => l.order));
 
   const STATIONARY_ORDER = 7;
-
-  const GLOBAL_START_BOOST_VH = -64; // extra 30vh added to every non-stationary layer
+  const GLOBAL_START_BOOST_VH = 50; // extra 30vh added to every non-stationary layer
 
   layerData.forEach(l => {
     // depthNear = 1 for layer--0 (near), 0 for layer--7 (far)
@@ -127,15 +126,6 @@
   function onScroll() {
     const y = window.scrollY;
     const scrolledPx = Math.min(Math.max(y - pinTop, 0), pinScrollable);
-
-    // 1) Logo phase: move 1:1 (px) until it's off-screen
-    // const logoExitPx = Math.round(vpH * LOGO_TRAVEL);
-    // if (logo) {
-    //   const liftPx = -Math.min(scrolledPx, logoExitPx); // 1:1 with scroll
-    //   logo.style.transform = `translate3d(0, ${liftPx}px, 0)`;
-    //   // Optional: once past exit, hide it completely
-    //   logo.style.opacity = scrolledPx >= logoExitPx ? '0' : '1';
-    // }
 
     const parallaxStartPx = Math.round(vpH * LOGO_TRAVEL);
     const logoExitPx = Math.round(vpH * LOGO_EXIT_TRAVEL);
