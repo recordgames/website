@@ -186,7 +186,7 @@ a:focus-visible {
 .layer__image {
   width: 100%;
   height: 100%;
-  background-position: center;
+  background-position: center top;
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -229,7 +229,7 @@ a:focus-visible {
 }
 
 .layer--6 .layer__image {
-  background-image: url('hero_6.png');
+  background-image: url('hero_6_full.png');
 }
 
 .layer--5 .layer__image {
