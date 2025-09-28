@@ -27,7 +27,7 @@
   // Build layer model (infer order from class layer--N)
   const N = layers.length;
   const DELAY_NEAR_LAYER = new Map([
-    [0, 0.18], // hero_0.png (layer--0) waits until 18% progress before rising
+    [0, 0.8], // hero_0.png (layer--0) waits until 18% progress before rising
   ]);
 
   const layerData = layers.map((el, i) => {
