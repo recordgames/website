@@ -60,16 +60,6 @@
   let vpH = 0, pinTop = 0, pinHeight = 0, pinScrollable = 1, headerH = 0;
   const headerEl = document.querySelector('.site-header');
 
-  // function measure() {
-  //   vpH = window.innerHeight;
-  //   const rect = pin.getBoundingClientRect();
-  //   const start = rect.top + window.scrollY;
-  //   const end = start + pin.offsetHeight - vpH;
-  //   pinTop = start;
-  //   pinHeight = pin.offsetHeight;
-  //   pinScrollable = Math.max(1, end - start);
-  // }
-
   // use visual viewport height on mobile if available
   function measure() {
     vpH = (window.visualViewport?.height) || window.innerHeight;
@@ -187,14 +177,32 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) { measure(); apply(1); return; }
 
+  // Init (set positions immediately so there's no jump)
   measure();
-  apply(0);
+  onScroll();  // sets logo transform + p=0 right away
+
+  // Re-run once after first paint and after fonts load (prevents late jumps)
+  requestAnimationFrame(() => { measure(); onScroll(); });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => { measure(); onScroll(); });
+  }
+
+  // If the logo is an <img>, re-apply when it finishes loading
+  const logoImg =
+    document.querySelector('.logo-splash img') ||
+    (logo && logo.querySelector && logo.querySelector('img'));
+  if (logoImg && !logoImg.complete) {
+    logoImg.addEventListener('load', () => { measure(); onScroll(); }, { once: true });
+  }
+
+  // Listeners (keep these after the init/re-run)
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onResize);
   window.addEventListener('load', onResize);
-
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', onResize);
+    window.visualViewport.addEventListener('scroll', onResize);
   }
 
 })();
