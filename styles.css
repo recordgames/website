@@ -229,7 +229,7 @@ a:focus-visible {
 }
 
 .layer--6 .layer__image {
-  background-image: url('hero_6_full.png');
+  background-image: url('hero_6.png');
 }
 
 .layer--5 .layer__image {
@@ -249,7 +249,7 @@ a:focus-visible {
 }
 
 .layer--1 .layer__image {
-  background-image: url('hero_1.png');
+  background-image: url('hero_1_full.png');
 }
 
 .layer--0 .layer__image {
