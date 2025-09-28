@@ -547,6 +547,10 @@ a:focus-visible {
   text-align: center;
 }
 
+.glyph-fallback {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
 @media (max-width: 768px) {
   .site-header .container {
     flex-direction: column;
