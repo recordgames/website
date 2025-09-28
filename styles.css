@@ -1,12 +1,18 @@
 @font-face {
   font-family: 'BM Hanna Pro';
-  src: url('fonts/BMHannaPro.woff2') format('woff2');
+  src: url('fonts/BMHannaPro.tff') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pixel Punk';
+  src: url('fonts/Pixelpunk.ttf') format('truetype');
   font-display: swap;
 }
 
 :root {
   --font-body: 'BM Hanna Pro', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Press Start 2P', 'BM Hanna Pro', cursive;
+  --font-display: 'Pixel Punk', 'BM Hanna Pro', cursive;
   --color-bg: #0d0221;
   --color-bg-alt: #13062b;
   --color-surface: rgba(19, 6, 43, 0.8);
@@ -132,7 +138,7 @@ a:focus-visible {
 .logo-splash__tagline {
   margin-top: clamp(0.25rem, 1vw, 0.75rem);
   font-family: var(--font-display);
-  font-size: clamp(0.75rem, 1.8vw, 1.25rem);
+  font-size: clamp(2rem, 4.8vw, 3.5rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-text);
