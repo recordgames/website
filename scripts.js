@@ -38,7 +38,7 @@
 
   const STATIONARY_ORDER = 7;
 
-  const GLOBAL_START_BOOST_VH = 160; // extra 30vh added to every non-stationary layer
+  const GLOBAL_START_BOOST_VH = 64; // extra 30vh added to every non-stationary layer
 
   layerData.forEach(l => {
     // depthNear = 1 for layer--0 (near), 0 for layer--7 (far)
