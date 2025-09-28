@@ -284,7 +284,7 @@ a:focus-visible {
 
 /* The tall scrollytelling container that creates scroll distance */
 .hero-pin {
-  /* Controls how long the pin lasts. Set via inline --pin-height above. */
+  --pin-height: 400vh; /* default desktop scroll distance */
   height: var(--pin-height, 220vh);
   position: relative;
 }
@@ -540,6 +540,12 @@ a:focus-visible {
 
   .layer__image {
     width: min(600px, 120vw);
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-pin {
+    --pin-height: 280vh; /* shorter scroll distance so hero settles sooner */
   }
 }
 
