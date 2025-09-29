@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://groot.mailerlite.com/js/w/webforms.min.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -84,17 +85,114 @@
         <h2>Stay in the Loop</h2>
         <p>Be the first to know about playtests, soundtrack drops, and development updates.</p>
         <div class="newsletter__embed" role="region" aria-live="polite">
-          <!-- MailerLite embed placeholder -->
-          <div class="mailerlite-widget">
-            <iframe title="Starstruck Galaxy Newsletter" src="https://static.mailerlite.com/webforms/placeholder.html" loading="lazy"></iframe>
+
+          <!-- MailerLite embed (minimal) -->
+          <div id="mlb2-6142205" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-6142205">
+            <div class="ml-form-embedWrapper embedForm">
+              <div class="ml-form-embedBody ml-form-embedBodyDefault row-form" aria-live="polite">
+                <form class="ml-block-form"
+                      action="https://assets.mailerlite.com/jsonp/501106/forms/92890192905504300/subscribe"
+                      method="post"
+                      target="_blank"
+                      novalidate>
+                  
+                  <div class="ml-form-formContent">
+                    <div class="ml-form-fieldRow ml-last-item">
+                      <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                        <label for="newsletter-email" class="sr-only">Email</label>
+                        <input id="newsletter-email"
+                              name="fields[email]"
+                              type="email"
+                              inputmode="email"
+                              autocomplete="email"
+                              placeholder="you@example.com"
+                              required
+                              aria-required="true" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Consent (required) -->
+                  <div class="ml-form-embedBody ml-form-embedPermissions ml-form-embedPermissionsOptionsCheckbox" style="margin: .5rem 0 1rem;">
+                    <label for="newsletter-consent" class="consent">
+                      <input type="checkbox"
+                            id="newsletter-consent"
+                            name="fields[consent]"
+                            value="yes"
+                            required
+                            aria-required="true" />
+                      <span>By subscribing, you agree to receive our newsletter featuring playtest announcements and game news. You can unsubscribe at any time. Read our <a href="privacy.html">Privacy Policy</a>.</span>
+                    </label>
+                  </div>
+
+                  <!-- Hidden ML fields -->
+                  <input type="hidden" name="ml-submit" value="1" />
+                  <input type="hidden" name="anticsrf" value="true" />
+
+                  <!-- Submit -->
+                  <div class="ml-form-embedSubmit">
+                    <button type="submit" class="button" id="newsletter-submit" disabled>Subscribe</button>
+                    <button type="button" class="loading" style="display:none;" aria-disabled="true">
+                      <span class="ml-form-embedSubmitLoad" aria-hidden="true"></span>
+                      <span class="sr-only">Loading…</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Success UI -->
+              <div class="ml-form-successBody row-success" style="display:none;" role="status" aria-live="polite">
+                <div class="ml-form-successContent">
+                  <h3>Thank you!</h3>
+                  <p>You’ve successfully joined our list. See you in the next update 👋</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <label class="consent" for="newsletter-consent">
-            <input type="checkbox" id="newsletter-consent" name="newsletter-consent" />
-            <span>By subscribing, you agree to receive our newsletter featuring playtest announcements and game news. You can unsubscribe at any time. Read our <a href="privacy.html">Privacy Policy</a> to learn more.</span>
-          </label>
+
         </div>
       </div>
     </section>
+
+    <script>
+      // MailerLite calls this on success (ID must match your container suffix)
+      function ml_webform_success_6142205() {
+        var $ = window.ml_jQuery || window.jQuery;
+        if ($) {
+          $('.ml-subscribe-form-6142205 .row-success').show();
+          $('.ml-subscribe-form-6142205 .row-form').hide();
+        } else {
+          // Vanilla fallback
+          document.querySelectorAll('.ml-subscribe-form-6142205 .row-success')
+            .forEach(el => el.style.display = 'block');
+          document.querySelectorAll('.ml-subscribe-form-6142205 .row-form')
+            .forEach(el => el.style.display = 'none');
+        }
+      }
+
+      // UX: disable submit until consent is ticked; show loading on submit
+      document.addEventListener('DOMContentLoaded', () => {
+        const consent = document.getElementById('newsletter-consent');
+        const submit  = document.getElementById('newsletter-submit');
+        const form    = document.querySelector('#mlb2-6142205 form');
+        const loadingBtn = form?.querySelector('.ml-form-embedSubmit .loading');
+
+        function syncButton() {
+          submit.disabled = !consent.checked;
+          submit.setAttribute('aria-disabled', String(submit.disabled));
+        }
+        if (consent && submit) {
+          consent.addEventListener('change', syncButton);
+          syncButton();
+        }
+
+        form?.addEventListener('submit', () => {
+          if (!consent.checked) return; // native required will also block
+          submit.style.display = 'none';
+          if (loadingBtn) loadingBtn.style.display = 'inline-flex';
+        }, { passive: true });
+      });
+    </script>
 
     <section id="features" class="features section" aria-label="Game features">
       <div class="container">
