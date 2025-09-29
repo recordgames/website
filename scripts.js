@@ -47,6 +47,9 @@
 
   const STATIONARY_ORDER = 7;
   const GLOBAL_START_BOOST_VH = 50; // extra 30vh added to every non-stationary layer
+  const ASPECT_OFFSET_MIN_AR = 0.75;  // below this H/W ratio, no offset is added
+  const ASPECT_OFFSET_MAX_AR = 2.0;   // typical portrait phone (~2:1 H/W) reaches full offset
+  const MAX_ASPECT_OFFSET_VH = 25;    // add up to 25vh for tall viewports (mobile target)
 
   layerData.forEach(l => {
     // depthNear = 1 for layer--0 (near), 0 for layer--7 (far)
@@ -65,12 +68,15 @@
     if (l.order !== STATIONARY_ORDER) l.start += GLOBAL_START_BOOST_VH;
   });
 
-  let vpH = 0, pinTop = 0, pinHeight = 0, pinScrollable = 1, headerH = 0;
+  let vpH = 0, vpW = 0, viewportAspectRatio = 1;
+  let pinTop = 0, pinHeight = 0, pinScrollable = 1, headerH = 0;
   const headerEl = document.querySelector('.site-header');
 
   // use visual viewport height on mobile if available
   function measure() {
     vpH = (window.visualViewport?.height) || window.innerHeight;
+    vpW = (window.visualViewport?.width) || window.innerWidth;
+    viewportAspectRatio = vpW > 0 ? (vpH / vpW) : 1;
     const rect = pin.getBoundingClientRect();
     const start = rect.top + window.scrollY;
     const end = start + pin.offsetHeight - vpH;
@@ -81,10 +87,17 @@
   }
 
 
+  function aspectOffsetVH(order) {
+    if (order === STATIONARY_ORDER) return 0;
+    const range = Math.max(1e-6, ASPECT_OFFSET_MAX_AR - ASPECT_OFFSET_MIN_AR);
+    const normalized = Math.min(Math.max((viewportAspectRatio - ASPECT_OFFSET_MIN_AR) / range, 0), 1);
+    return normalized * MAX_ASPECT_OFFSET_VH;
+  }
+
   function apply(progress) {
     const globalProgress = Math.min(Math.max(progress, 0), 1);
 
-    layerData.forEach(({ el, start, speed, delay }) => {
+    layerData.forEach(({ el, start, speed, delay, order }) => {
       let p = globalProgress;
       if (delay > 0) {
         if (p <= delay) {
@@ -96,7 +109,8 @@
 
       const eased = USE_EASING ? (1 - Math.pow(1 - p, 3)) : p; // easeOutCubic or linear
       const translateVH = (1 - eased) * start * speed;
-      el.style.transform = `translate3d(0, ${translateVH}vh, 0)`;
+      const offsetVH = aspectOffsetVH(order);
+      el.style.transform = `translate3d(0, ${translateVH + offsetVH}vh, 0)`;
       // No fade/reveal anymore
       el.style.opacity = '1';
     });
