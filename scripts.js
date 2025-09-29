@@ -49,7 +49,7 @@
   const GLOBAL_START_BOOST_VH = 50; // extra 30vh added to every non-stationary layer
   const ASPECT_OFFSET_MIN_AR = 0.75;  // below this H/W ratio, no offset is added
   const ASPECT_OFFSET_MAX_AR = 2.0;   // typical portrait phone (~2:1 H/W) reaches full offset
-  const MAX_ASPECT_OFFSET_VH = 25;    // add up to 25vh for tall viewports (mobile target)
+  const MAX_ASPECT_OFFSET_VH = 32;    // add up to 25vh for tall viewports (mobile target)
 
   layerData.forEach(l => {
     // depthNear = 1 for layer--0 (near), 0 for layer--7 (far)
