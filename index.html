@@ -51,7 +51,7 @@
       <section id="hero" class="hero" aria-label="Starstruck Galaxy hero section">
         <div class="logo-splash">
           <img src="starstruckgalaxy_logo.png" alt="Starstruck Galaxy" />
-          <p class="logo-splash__tagline">drop loops<br>through the galaxy</p>
+          <p class="logo-splash__tagline">Drop loops<br>through the galaxy</p>
         </div>
         <div class="parallax" aria-hidden="true">
           <div class="layer layer--7" data-speed="0.15" data-reveal="0">
@@ -87,140 +87,94 @@
         <div class="hero__content">
           <h1 class="hero__title">Create. Remix. Explore.</h1>
           <p class="hero__subtitle">Make original tracks, find your sound, and level up your game one planet at a time.</p>
-          <a class="cta-button" href="#newsletter">Join the Jam</a>
         </div>
-        
-        <p>You’re the artist, charting your own course through a galaxy of sound.</p>
-        <p>Drop beats, stack loops, and craft hooks that slap. Each planet brings new instruments and creative challenges to keep ideas moving.</p>
+
+        <section id="newsletter" class="newsletter section" aria-label="Newsletter sign-up">
+          <div class="container narrow">
+            <div class="newsletter__embed" role="region" aria-live="polite">
+
+              <!-- MailerLite embed (minimal) -->
+              <div id="mlb2-6142205" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-6142205">
+                <div class="ml-form-embedWrapper embedForm">
+                  <div class="ml-form-embedBody ml-form-embedBodyDefault row-form" aria-live="polite">
+                    <form class="ml-block-form"
+                          action="https://assets.mailerlite.com/jsonp/501106/forms/92890192905504300/subscribe"
+                          method="post"
+                          target="_blank"
+                          novalidate>
+                      <div class="ml-form-formContent">
+                        <div class="newsletter__heading">
+                          <h2>Stay in the Loop</h2>
+                          <p>Be the first to know about playtests, soundtrack drops, and development updates.</p>
+                        </div>
+                        <div class="ml-form-fieldRow ml-last-item">
+                          <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                            <label for="newsletter-email" class="sr-only">Email</label>
+                            <input id="newsletter-email"
+                                  name="fields[email]"
+                                  type="email"
+                                  inputmode="email"
+                                  autocomplete="email"
+                                  placeholder="you@example.com"
+                                  required
+                                  aria-required="true" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Consent (required) -->
+                      <div class="ml-form-embedBody ml-form-embedPermissions ml-form-embedPermissionsOptionsCheckbox" style="margin: .5rem 0 1rem;">
+                        <label for="newsletter-consent" class="consent">
+                          <input type="checkbox"
+                                id="newsletter-consent"
+                                name="fields[consent]"
+                                value="yes"
+                                required
+                                aria-required="true" />
+                          <span>By subscribing, you agree to receive our newsletter featuring playtest announcements and game news. You can unsubscribe at any time. Read our <a href="privacy.html">Privacy Policy</a>.</span>
+                        </label>
+                      </div>
+
+                      <!-- Hidden ML fields -->
+                      <input type="hidden" name="ml-submit" value="1" />
+                      <input type="hidden" name="anticsrf" value="true" />
+
+                      <!-- Submit -->
+                      <div class="ml-form-embedSubmit">
+                        <button type="submit" class="button" id="newsletter-submit" disabled>Subscribe</button>
+                        <button type="button" class="loading" style="display:none;" aria-disabled="true">
+                          <span class="ml-form-embedSubmitLoad" aria-hidden="true"></span>
+                          <span class="sr-only">Loading…</span>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Success UI -->
+                  <div class="ml-form-successBody row-success" style="display:none;" role="status" aria-live="polite">
+                    <div class="ml-form-successContent">
+                      <h3>Thank you!</h3>
+                      <p>You’ve successfully joined our list. See you in the next update 👋</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Remaining about copy -->
+        <p class="about__mantra">You're the artist</p>
+        <p>Chart your own course through a galaxy of sound.</p>
+        <p>Drop beats, stack loops, and craft hooks that slap.</p>
+        <p>Each planet brings new instruments and creative challenges to keep ideas moving.</p>
         <p>Go freeform or master challenges. Unlock new sounds, push your skills, and keep exploring until it clicks.</p>
         <p>Whether you’re a seasoned beatmaker or just finding your rhythm, you’ll lock in fast and make it your own.</p>
-        <p class="about__mantra">Create.<br />Remix.<br />Explore.</p>
         <p>The galaxy is your studio.</p>
       </div>
     </section>
 
-    <section id="newsletter" class="newsletter section" aria-label="Newsletter sign-up">
-      <div class="container narrow">
-        <div class="newsletter__embed" role="region" aria-live="polite">
-
-          <!-- MailerLite embed (minimal) -->
-          <div id="mlb2-6142205" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-6142205">
-            <div class="ml-form-embedWrapper embedForm">
-              <div class="ml-form-embedBody ml-form-embedBodyDefault row-form" aria-live="polite">
-                <form class="ml-block-form"
-                      action="https://assets.mailerlite.com/jsonp/501106/forms/92890192905504300/subscribe"
-                      method="post"
-                      target="_blank"
-                      novalidate>
-                  <div class="ml-form-formContent">
-                    <div class="newsletter__heading">
-                      <h2>Stay in the Loop</h2>
-                      <p>Be the first to know about playtests, soundtrack drops, and development updates.</p>
-                    </div>
-                    <div class="ml-form-fieldRow ml-last-item">
-                      <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                        <label for="newsletter-email" class="sr-only">Email</label>
-                        <input id="newsletter-email"
-                              name="fields[email]"
-                              type="email"
-                              inputmode="email"
-                              autocomplete="email"
-                              placeholder="you@example.com"
-                              required
-                              aria-required="true" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Consent (required) -->
-                  <div class="ml-form-embedBody ml-form-embedPermissions ml-form-embedPermissionsOptionsCheckbox" style="margin: .5rem 0 1rem;">
-                    <label for="newsletter-consent" class="consent">
-                      <input type="checkbox"
-                            id="newsletter-consent"
-                            name="fields[consent]"
-                            value="yes"
-                            required
-                            aria-required="true" />
-                      <span>By subscribing, you agree to receive our newsletter featuring playtest announcements and game news. You can unsubscribe at any time. Read our <a href="privacy.html">Privacy Policy</a>.</span>
-                    </label>
-                  </div>
-
-                  <!-- Hidden ML fields -->
-                  <input type="hidden" name="ml-submit" value="1" />
-                  <input type="hidden" name="anticsrf" value="true" />
-
-                  <!-- Submit -->
-                  <div class="ml-form-embedSubmit">
-                    <button type="submit" class="button" id="newsletter-submit" disabled>Subscribe</button>
-                    <button type="button" class="loading" style="display:none;" aria-disabled="true">
-                      <span class="ml-form-embedSubmitLoad" aria-hidden="true"></span>
-                      <span class="sr-only">Loading…</span>
-                    </button>
-                  </div>
-                </form>
-              </div>
-
-              <!-- Success UI -->
-              <div class="ml-form-successBody row-success" style="display:none;" role="status" aria-live="polite">
-                <div class="ml-form-successContent">
-                  <h3>Thank you!</h3>
-                  <p>You’ve successfully joined our list. See you in the next update 👋</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <script>
-      // MailerLite calls this on success
-      function ml_webform_success_6142205() {
-        var $ = window.ml_jQuery || window.jQuery;
-        if ($) {
-          $('.ml-subscribe-form-6142205 .row-success').show();
-          $('.ml-subscribe-form-6142205 .row-form').hide();
-        } else {
-          document.querySelectorAll('.ml-subscribe-form-6142205 .row-success')
-            .forEach(el => el.style.display = 'block');
-          document.querySelectorAll('.ml-subscribe-form-6142205 .row-form')
-            .forEach(el => el.style.display = 'none');
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', () => {
-        const consent = document.getElementById('newsletter-consent');
-        const email   = document.getElementById('newsletter-email');
-        const submit  = document.getElementById('newsletter-submit');
-        const form    = document.querySelector('#mlb2-6142205 form');
-        const loadingBtn = form?.querySelector('.ml-form-embedSubmit .loading');
-
-        function isEmailValid() {
-          return email?.checkValidity();
-        }
-
-        function syncButton() {
-          const ok = consent?.checked && isEmailValid();
-          submit.disabled = !ok;
-          submit.setAttribute('aria-disabled', String(!ok));
-        }
-
-        consent?.addEventListener('change', syncButton);
-        email?.addEventListener('input', syncButton);
-
-        syncButton(); // initial state
-
-        form?.addEventListener('submit', (e) => {
-          if (!(consent?.checked && isEmailValid())) {
-            e.preventDefault(); // extra safety
-            return;
-          }
-          submit.style.display = 'none';
-          if (loadingBtn) loadingBtn.style.display = 'inline-flex';
-        }, { passive: false });
-      });
-    </script>
 
     <!-- <section id="features" class="features section" aria-label="Game features">
       <div class="container">
@@ -239,7 +193,7 @@
           </div>
           <div class="feature-card__content">
             <h3>Compose Your Groove</h3>
-            <p>Layer beats, basslines, chords, and melodies with intuitive tools designed for creators of every skill level.</p>
+            <p>Live looping... Layer beats, basslines, chords, and melodies with intuitive tools designed for creators of every skill level.</p>
           </div>
         </article>
         <article class="feature-card">
