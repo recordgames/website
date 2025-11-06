@@ -393,6 +393,107 @@ a:focus-visible { text-decoration: underline; }
 @keyframes ml-spin { to { transform: rotate(360deg); } }
 
 /* =========================================================
+   11b) NEWSLETTER: CENTER LAYOUT & GLOW
+   ---------------------------------------------------------
+   - Center the section contents in their area
+   - Center the heading & intro text
+   - Center the MailerLite card
+   - Center the blurred/glow frame behind the card
+========================================================= */
+
+/* Center the whole section contents */
+#newsletter.section {
+  display: grid;             /* lets us use place-items */
+  place-items: center;       /* horizontal + vertical centering */
+  padding-block: clamp(3rem, 6vw, 6rem);
+  position: relative;
+}
+
+/* Keep the inner container itself centered */
+#newsletter .container.narrow {
+  margin-inline: auto;
+}
+
+/* Center the heading + intro copy */
+#newsletter .newsletter__heading {
+  text-align: center;
+}
+#newsletter .newsletter__heading h2 {
+  margin-block: 0 0.5rem;
+}
+#newsletter .newsletter__heading p {
+  margin-block: 0 1.25rem;
+  opacity: 0.9;
+}
+
+/* Center the embedded form/card and constrain width */
+#newsletter .newsletter__embed {
+  display: flex;
+  justify-content: center;
+}
+#newsletter .ml-form-embedWrapper.embedForm {
+  width: 100%;
+  max-width: 720px;          /* adjust to taste */
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;                /* above any glow frame */
+}
+
+/* Center the submit row/button */
+#newsletter .ml-form-embedSubmit {
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================================================
+   11c) NEWSLETTER: PERFECTLY-CENTERED GLOW
+   ---------------------------------------------------------
+   Keep ::before as the wide ambient wash, and add ::after
+   as a tight, centered halo behind the card.
+========================================================= */
+
+/* Make sure the section is a stacking context and the card sits above glows */
+#newsletter {
+  position: relative;
+  isolation: isolate;
+}
+#newsletter .ml-form-embedWrapper.embedForm {
+  position: relative;
+  z-index: 1; /* card above glows */
+}
+
+/* Centered halo */
+#newsletter::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* Match/approx your card footprint */
+  width: min(900px, calc(100% - 3rem));
+  height: clamp(320px, 50vw, 520px);
+  transform: translate(-50%, -50%);
+  border-radius: 32px;
+
+  /* Radial center glow, no edge bias */
+  background:
+    radial-gradient(70% 80% at 50% 50%,
+      rgba(61, 231, 255, 0.25),
+      rgba(255, 79, 216, 0.25) 40%,
+      transparent 70%);
+  filter: blur(30px);
+  opacity: 0.85;
+
+  z-index: 0; /* under the card, above page */
+  pointer-events: none;
+}
+
+/* Optional: tone down the wide wash so the centered halo reads clearer */
+#newsletter::before {
+  opacity: 0.45;                 /* was 0.75 */
+  filter: blur(22px);            /* slightly softer */
+}
+
+/* =========================================================
    12) FEATURES GRID & CARDS
    ---------------------------------------------------------
    Auto-fit responsive grid with glassy feature cards.
