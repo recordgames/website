@@ -231,5 +231,59 @@
   </footer>
 
   <script src="scripts.js"></script>
+
+  <script> 
+    // MailerLite calls this on success
+    function ml_webform_success_6142205() {
+      var $ = window.ml_jQuery || window.jQuery;
+      if ($) { 
+        $('.ml-subscribe-form-6142205 .row-success').show(); 
+        $('.ml-subscribe-form-6142205 .row-form').hide(); 
+      } 
+      else { 
+        document.querySelectorAll('.ml-subscribe-form-6142205 .row-success').forEach(el => el.style.display = 'block'); 
+        document.querySelectorAll('.ml-subscribe-form-6142205 .row-form').forEach(el => el.style.display = 'none'); 
+      } 
+    } 
+    
+    document.addEventListener('DOMContentLoaded', () => { 
+      const consent = document.getElementById('newsletter-consent'); 
+      const email = document.getElementById('newsletter-email'); 
+      const submit = document.getElementById('newsletter-submit'); 
+      const form = document.querySelector('#mlb2-6142205 form'); 
+      const loadingBtn = form?.querySelector('.ml-form-embedSubmit .loading'); 
+
+      function isEmailValid() { return email?.checkValidity(); } 
+      
+      function syncButton() { 
+        const ok = consent?.checked && isEmailValid(); 
+        submit.disabled = !ok; 
+        submit.setAttribute('aria-disabled', String(!ok)); 
+      } 
+      
+      consent?.addEventListener('change', syncButton); 
+      email?.addEventListener('input', syncButton); 
+      syncButton(); // initial state
+      
+      form?.addEventListener(
+        'submit', 
+        (e) => {
+          if (!(consent?.checked && isEmailValid()))
+          { 
+            e.preventDefault(); // extra safety 
+            return; 
+          } 
+
+          submit.style.display = 'none'; 
+
+          if (loadingBtn) 
+            loadingBtn.style.display = 'inline-flex'; 
+
+          }, 
+          { passive: false }
+        );
+    }); 
+  </script>
+
 </body>
 </html>
