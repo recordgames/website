@@ -244,7 +244,7 @@ a:focus-visible { text-decoration: underline; }
   pointer-events: none;       /* decorative only */
 }
 .logo-splash img {
-  width: min(60vw, 520px);
+  width: min(60vw, 620px);
   height: auto;
   filter: drop-shadow(0 12px 24px rgba(0,0,0,0.45));
 }
