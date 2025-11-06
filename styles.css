@@ -46,7 +46,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 1.0625rem;
+  font-size: 1.32rem;
   line-height: 1.7;
   color: var(--color-text);
   background:
@@ -130,6 +130,7 @@ a:focus-visible { text-decoration: underline; }
   padding: 0;
 }
 .primary-nav a {
+  font-family: var(--font-display);
   font-weight: 600;
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -251,9 +252,8 @@ a:focus-visible { text-decoration: underline; }
 }
 .logo-splash__tagline {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4.8vw, 3.5rem);
+  font-size: clamp(2rem, 3.2vw, 3.5rem);
   letter-spacing: 0.12em;
-  text-transform: uppercase;
   color: var(--color-text);
   text-align: center;
   text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
@@ -325,7 +325,7 @@ a:focus-visible { text-decoration: underline; }
 .about p { margin-bottom: 1.25rem; }
 .about__mantra {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: clamp(1.5rem, 4vw, 3rem);
   letter-spacing: 0.25em;
   text-align: center;
   margin: 2rem 0;
@@ -420,6 +420,7 @@ a:focus-visible { text-decoration: underline; }
   border: 1px solid var(--border, rgba(255,255,255,0.2));
   background: var(--color-surface, rgba(19, 6, 43, 0.8));
   color: var(--color-text, #fff);
+  font-family: var(--font-body);
 }
 
 /* Center the submit button row */
@@ -432,6 +433,10 @@ a:focus-visible { text-decoration: underline; }
   width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
 /* Tiny loader dot spinner */
