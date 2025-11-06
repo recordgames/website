@@ -9,11 +9,11 @@
   src: url('fonts/BMHannaPro.ttf') format('truetype');
   font-display: swap;
 }
-@font-face {
+/* @font-face {
   font-family: 'Pixel Punk';
   src: url('fonts/Pixelpunk.ttf') format('truetype');
   font-display: swap;
-}
+} */
 
 /* =========================================================
    02) THEME VARIABLES / ROOT
@@ -23,7 +23,7 @@
 ========================================================= */
 :root {
   --font-body: 'BM Hanna Pro', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Pixel Punk', 'BM Hanna Pro', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Slackey', 'BM Hanna Pro', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
 
   --color-bg: #0d0221;
   --color-bg-alt: #13062b;
