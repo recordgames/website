@@ -330,6 +330,23 @@ a:focus-visible { text-decoration: underline; }
   text-align: center;
   margin: 2rem 0;
 }
+.about__video {
+  margin: clamp(1.5rem, 4vw, 2.5rem) auto 0;
+  width: min(100%, 860px);
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(247, 244, 255, 0.14);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    0 0 28px rgba(61, 231, 255, 0.18);
+}
+.about__video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
 
 /* =========================================================
    11) NEWSLETTER / EMBED
