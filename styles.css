@@ -375,8 +375,9 @@ a:focus-visible { text-decoration: underline; }
   text-align: center;
   gap: 0.65rem;
 }
-.team-member img {
+.team-member__avatar {
   width: clamp(92px, 10vw, 124px);
+  max-width: 124px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
@@ -403,9 +404,10 @@ a:focus-visible { text-decoration: underline; }
   justify-content: center;
   margin-top: 0.2rem;
 }
-.team-member__linkedin img {
-  width: 24px;
-  height: 24px;
+.team-member__linkedin-icon {
+  width: 22px;
+  height: 22px;
+  max-width: 22px;
   display: block;
 }
 
@@ -699,6 +701,15 @@ a:focus-visible { text-decoration: underline; }
   #about-us .about-us__team {
     grid-template-columns: 1fr;
     gap: 1.4rem;
+  }
+  #about-us .team-member__avatar {
+    width: 96px;
+    max-width: 96px;
+  }
+  #about-us .team-member__linkedin-icon {
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
   }
   .hero { padding: 10rem 0 4rem; }
   .layer__image { width: min(600px, 120vw); }
