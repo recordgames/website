@@ -703,13 +703,17 @@ a:focus-visible { text-decoration: underline; }
     gap: 1.4rem;
   }
   #about-us .team-member__avatar {
-    width: 96px;
-    max-width: 96px;
+    width: 96px !important;
+    height: 96px !important;
+    max-width: 96px !important;
   }
   #about-us .team-member__linkedin-icon {
-    width: 20px;
-    height: 20px;
-    max-width: 20px;
+    width: 20px !important;
+    height: 20px !important;
+    max-width: 20px !important;
+  }
+  #about-us .team-member__linkedin {
+    line-height: 0;
   }
   .hero { padding: 10rem 0 4rem; }
   .layer__image { width: min(600px, 120vw); }
