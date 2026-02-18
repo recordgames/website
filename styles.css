@@ -639,6 +639,11 @@ a:focus-visible { text-decoration: underline; }
     flex-wrap: wrap;
     justify-content: center;
   }
+  #about-us .container.narrow,
+  #about-us h2,
+  #about-us p {
+    text-align: center;
+  }
   .hero { padding: 10rem 0 4rem; }
   .layer__image { width: min(600px, 120vw); }
 }
