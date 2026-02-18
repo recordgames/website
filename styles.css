@@ -356,6 +356,58 @@ a:focus-visible { text-decoration: underline; }
   margin: 0 auto;
   color: var(--color-text-muted);
 }
+#about-us p.about-us__intro {
+  margin-bottom: 1.8rem;
+}
+.about-us__bandline {
+  margin-top: 0;
+}
+.about-us__team {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.75rem);
+  align-items: start;
+}
+.team-member {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.65rem;
+}
+.team-member img {
+  width: clamp(92px, 10vw, 124px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(247, 244, 255, 0.24);
+}
+.team-member p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.team-member__name {
+  font-family: var(--font-display);
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+}
+.team-member__role {
+  font-family: var(--font-body);
+  color: var(--color-text-muted);
+}
+.team-member__linkedin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.2rem;
+}
+.team-member__linkedin img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
 
 /* =========================================================
    11) NEWSLETTER / EMBED
@@ -643,6 +695,10 @@ a:focus-visible { text-decoration: underline; }
   #about-us h2,
   #about-us p {
     text-align: center;
+  }
+  #about-us .about-us__team {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
   }
   .hero { padding: 10rem 0 4rem; }
   .layer__image { width: min(600px, 120vw); }
