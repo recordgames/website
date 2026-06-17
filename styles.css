@@ -216,7 +216,7 @@ a:focus-visible { text-decoration: underline; }
   position: relative;
   z-index: 2;
   text-align: center;
-  padding-bottom: 3rem;
+  padding-bottom: clamp(1rem, 2.5vw, 1.5rem);
 }
 .hero__title {
   font-family: var(--font-display);
@@ -301,7 +301,7 @@ a:focus-visible { text-decoration: underline; }
   font-size: clamp(1.25rem, 3vw, 2rem);
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
 }
 
 /* =========================================================
@@ -322,11 +322,13 @@ a:focus-visible { text-decoration: underline; }
 /* Reduce top padding of the about section */
 .about.section {
   padding-top: clamp(1rem, 2vw, 2rem); /* previously 4–7rem */
+  padding-bottom: clamp(2.5rem, 4vw, 4rem);
 }
 
 .about p { margin-bottom: 1.25rem; }
+.about .hero__content .hero__subtitle { margin-bottom: 0; }
 .about__video {
-  margin: clamp(1.5rem, 4vw, 2.5rem) auto 0;
+  margin: clamp(1.25rem, 3vw, 2rem) auto 0;
   width: min(100%, 860px);
   aspect-ratio: 16 / 9;
   border-radius: 16px;
@@ -343,13 +345,14 @@ a:focus-visible { text-decoration: underline; }
   display: block;
 }
 .about__platforms {
-  margin: 1.25rem 0 0;
+  margin: 1rem 0 0;
 }
 
 /* About Us section near footer */
 .about-us.section {
   text-align: center;
-  padding-top: clamp(2rem, 5vw, 4rem);
+  padding-top: clamp(3rem, 5vw, 4rem);
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
 }
 .about-us .container.narrow {
   max-width: 820px;
@@ -359,16 +362,16 @@ a:focus-visible { text-decoration: underline; }
   color: var(--color-text-muted);
 }
 #about-us p.about-us__intro {
-  margin-bottom: 1.8rem;
+  margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
 }
 #about-us p.about-us__team-bio {
-  margin-bottom: 1.8rem;
+  margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
 }
 .about-us__bandline {
   margin-top: 0;
 }
 .about-us__team {
-  margin-top: 1.25rem;
+  margin-top: clamp(1rem, 2vw, 1.25rem);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(1rem, 2vw, 1.75rem);
@@ -436,7 +439,7 @@ a:focus-visible { text-decoration: underline; }
 #newsletter.section {
   display: grid;
   place-items: center;                      /* horizontal + vertical centering */
-  padding-block: clamp(3rem, 6vw, 6rem);
+  padding-block: clamp(2rem, 4vw, 3.5rem);
 }
 
 /* Keep the inner container centered */
@@ -464,7 +467,7 @@ a:focus-visible { text-decoration: underline; }
 .newsletter__embed {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
   padding: 0;                               /* pill provides its own padding */
   background: transparent;                  /* no outer box */
   border: none;
@@ -584,13 +587,18 @@ a:focus-visible { text-decoration: underline; }
    ---------------------------------------------------------
    Centered action rows that wrap on small screens.
 ========================================================= */
-.cta { text-align: center; }
+.cta {
+  text-align: center;
+}
+.cta.section {
+  padding: clamp(2rem, 3.5vw, 3rem) 0;
+}
 .cta__actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 0;
 }
 
 /* =========================================================
