@@ -30,6 +30,7 @@
 
   --shadow-elevated: 0 24px 64px rgba(0, 0, 0, 0.45);
   --max-width: 1100px;
+  --hero-pin-height: 300vh;
 
   color-scheme: dark;
 }
@@ -149,7 +150,7 @@ a:focus-visible { text-decoration: underline; }
 
 /* Tall scrollytelling container controlling pin duration */
 .hero-pin {
-  height: var(--pin-height, 220vh);
+  height: var(--hero-pin-height, 300vh);
   position: relative;
 }
 
@@ -698,6 +699,9 @@ a:focus-visible { text-decoration: underline; }
    Mobile tweaks and accessibility: respect prefers-reduced-motion.
 ========================================================= */
 @media (max-width: 768px) {
+  .hero-pin {
+    --hero-pin-height: 200vh;
+  }
   .site-header .container {
     flex-direction: column;
     gap: 0.75rem;
@@ -734,6 +738,12 @@ a:focus-visible { text-decoration: underline; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .hero-pin {
+    height: 100vh;
+  }
+  .hero {
+    position: relative;
+  }
   .parallax,
   .layer,
   .layer__image {

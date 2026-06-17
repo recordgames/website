@@ -9,26 +9,29 @@
   const hero = document.getElementById('hero');
   const pin = document.getElementById('hero-pin');
   const yearEl = document.getElementById('year');
-  const HOLD_TAIL = 0.25; // last 25% of the pin is a hold (tweak 0.1–0.25)
-  const EXIT_RAMP       = 0.1; // last 8% of pin is the ease-out ramp
-  const EXIT_LIFT_VH    = 16;   // lift hero up by ~16vh during the ramp
+  const HOLD_TAIL = 0.06; // short settle at the end of the pin
+  const EXIT_RAMP       = 0.08; // final ease-out ramp
+  const EXIT_LIFT_VH    = 8;    // subtle lift as the hero releases
   const USE_EXIT_EASING = true; // ease shape for the ramp
 
   if (yearEl) yearEl.textContent = new Date().getFullYear();
   if (!pin || !hero || !layers.length) return;
 
   // ---- Tweak these to taste (linear mapping near→far) ----
-  const START_NEAR_VH = 1600; // layer--0 starts 120vh below, travels most
-  const START_FAR_VH  = 0;    // layer--7 starts 10vh below, travels least
-  const SPEED_NEAR    = 1.2;  // layer--0 moves fastest
+  const START_NEAR_VH = 1600; // nearest standard layer travels most
+  const START_FAR_VH  = 0;    // furthest layer travels least
+  const SPEED_NEAR    = 1.2;  // nearest standard layer moves fastest
   const SPEED_FAR     = 0.0;  // layer--7 moves slowest
   const USE_EASING    = true; // set false for perfectly linear motion
   // --------------------------------------------------------
 
   // Build layer model (infer order from class layer--N)
   const N = layers.length;
+  const FINAL_FLY_DOWN_ORDER = 0;
+  const FINAL_FLY_DOWN_START_VH = -145;
+  const FINAL_FLY_DOWN_SPEED = 1;
   const DELAY_NEAR_LAYER = new Map([
-    [0, 0.8], // hero_0.png (layer--0) waits until 18% progress before rising
+    [FINAL_FLY_DOWN_ORDER, 0.7],
   ]);
 
   const layerData = layers.map((el, i) => {
@@ -52,6 +55,12 @@
   const MAX_ASPECT_OFFSET_VH = 32;    // add up to 25vh for tall viewports (mobile target)
 
   layerData.forEach(l => {
+    if (l.order === FINAL_FLY_DOWN_ORDER) {
+      l.start = FINAL_FLY_DOWN_START_VH;
+      l.speed = FINAL_FLY_DOWN_SPEED;
+      return;
+    }
+
     // depthNear = 1 for layer--0 (near), 0 for layer--7 (far)
     const t = (l.order - minOrder) / Math.max(1, (maxOrder - minOrder));
     const depthNear = 1 - t;
@@ -174,7 +183,7 @@
     // If you implemented the hero exit ramp earlier, keep lifting during that ramp:
     if (typeof easeInOutCubic === 'function' && typeof USE_EXIT_EASING !== 'undefined') {
       const ramp = USE_EXIT_EASING ? easeInOutCubic(exitT) : exitT;
-      const lift = - (window.EXIT_LIFT_VH || 16) * ramp; // use your existing config
+      const lift = -EXIT_LIFT_VH * ramp;
       hero.style.transform = `translate3d(0, ${lift}vh, 0)`;
     }
   }
