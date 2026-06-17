@@ -257,6 +257,8 @@ a:focus-visible { text-decoration: underline; }
   color: var(--color-text);
   text-align: center;
   text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  text-wrap: balance;
+  max-width: min(90vw, 760px);
   margin-top: 0; /* spacing handled by .logo-splash gap */
 }
 
@@ -357,6 +359,9 @@ a:focus-visible { text-decoration: underline; }
   color: var(--color-text-muted);
 }
 #about-us p.about-us__intro {
+  margin-bottom: 1.8rem;
+}
+#about-us p.about-us__team-bio {
   margin-bottom: 1.8rem;
 }
 .about-us__bandline {
