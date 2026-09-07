@@ -297,6 +297,11 @@ a:focus-visible { text-decoration: underline; }
    Shared spacing for sections and section headings.
 ========================================================= */
 .section { padding: clamp(4rem, 7vw, 7rem) 0; }
+#about,
+#newsletter,
+#about-us {
+  scroll-margin-top: 5rem;
+}
 .section h2 {
   font-family: var(--font-display);
   font-size: clamp(1.25rem, 3vw, 2rem);
@@ -323,7 +328,7 @@ a:focus-visible { text-decoration: underline; }
 /* Reduce top padding of the about section */
 .about.section {
   padding-top: clamp(1rem, 2vw, 2rem); /* previously 4–7rem */
-  padding-bottom: clamp(2.5rem, 4vw, 4rem);
+  padding-bottom: 0;
 }
 
 .about p { margin-bottom: 1.25rem; }
@@ -344,6 +349,21 @@ a:focus-visible { text-decoration: underline; }
   height: 100%;
   border: 0;
   display: block;
+}
+.about p.about__social-proof {
+  display: inline-block;
+  max-width: 100%;
+  margin: 1rem auto 0;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(61, 231, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(19, 6, 43, 0.65);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.about__social-proof a {
+  color: var(--color-text);
 }
 .about__platforms {
   margin: 1rem 0 0;
@@ -440,7 +460,7 @@ a:focus-visible { text-decoration: underline; }
 #newsletter.section {
   display: grid;
   place-items: center;                      /* horizontal + vertical centering */
-  padding-block: clamp(2rem, 4vw, 3.5rem);
+  padding-block: clamp(2rem, 4vw, 3.5rem) 0;
 }
 
 /* Keep the inner container centered */
@@ -468,7 +488,7 @@ a:focus-visible { text-decoration: underline; }
 .newsletter__embed {
   display: flex;
   justify-content: center;
-  margin-top: clamp(1rem, 2vw, 1.5rem);
+  margin-top: 0;
   padding: 0;                               /* pill provides its own padding */
   background: transparent;                  /* no outer box */
   border: none;
